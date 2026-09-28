@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Cyber Reconnaissance Tools - Ultra Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-inner: #0f172a;
+            --accent-blue: #38bdf8;
+            --accent-purple: #c084fc;
+            --accent-green: #4ade80;
+            --accent-orange: #fb923c;
+            --accent-red: #f87171;
+            --accent-yellow: #facc15;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --hover-bg: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .target-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .target-box label {
+            font-weight: 600;
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+        }
+
+        .target-box input {
+            flex: 1;
+            min-width: 280px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #0f172a;
+            color: #fff;
+            font-size: 1rem;
+            direction: ltr;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .legend-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .badge-passive { background: rgba(74, 222, 128, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .badge-active { background: rgba(248, 113, 113, 0.15); color: var(--accent-red); border: 1px solid var(--accent-red); }
+        .badge-free { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
+        .badge-auth { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); border: 1px solid var(--accent-orange); }
+
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: var(--hover-bg);
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Guided Workflow Layout */
+        .workflow-selector {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .workflow-selector h3 {
+            margin-bottom: 15px;
+            color: var(--accent-purple);
+        }
+
+        .selector-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .select-btn {
+            background: var(--card-inner);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .select-btn:hover {
+            background: var(--hover-bg);
+            border-color: var(--accent-purple);
+        }
+
+        .select-btn.active {
+            background: linear-gradient(135deg, rgba(192, 132, 252, 0.2), rgba(56, 189, 248, 0.2));
+            border-color: var(--accent-purple);
+        }
+
+        .workflow-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .workflow-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .workflow-card h4 {
+            color: var(--accent-blue);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .workflow-card p {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        /* Tool item cards with descriptions */
+        .tool-card {
+            background-color: var(--card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            transition: 0.2s;
+        }
+
+        .tool-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tool-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-blue);
+        }
+
+        .tool-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .tool-action-btn {
+            background: var(--hover-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            align-self: flex-start;
+            margin-top: 5px;
+            transition: 0.2s;
+        }
+
+        .tool-action-btn:hover {
+            background: var(--accent-blue);
+            color: #000;
+        }
+
+        .btn-badges {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        /* All Tools Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .category-card h2 {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* CLI Terminal Tool Styles */
+        .cli-search-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .cli-inputs {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cli-select {
+            background: var(--card-inner);
+            color: var(--accent-blue);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .cli-input {
+            flex: 1;
+            min-width: 250px;
+            background: var(--card-inner);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .cli-results {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cmd-item {
+            background: var(--card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .cmd-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cmd-title {
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .cmd-os-tag {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(192, 132, 252, 0.2);
+            color: var(--accent-purple);
+            border: 1px solid var(--accent-purple);
+        }
+
+        .cmd-code-block {
+            background: #050811;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            color: #f8fafc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            direction: ltr;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .cmd-flags-container {
+            background: rgba(15, 23, 42, 0.6);
+            border-top: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-top: 5px;
+        }
+
+        .cmd-flags-title {
+            color: var(--accent-purple);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cmd-flags-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .cmd-flag-item {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            direction: rtl;
+        }
+
+        .cmd-flag-code {
+            background: #050811;
+            color: var(--accent-orange);
+            font-family: 'Fira Code', monospace;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            direction: ltr;
+            white-space: nowrap;
+        }
+
+        .copy-cmd-btn {
+            background: var(--hover-bg);
+            color: var(--text-main);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .copy-cmd-btn:hover {
+            background: var(--accent-blue);
+            color: #000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🛡️ Advanced Cyber Reconnaissance Tools</h1>
+        <p>סביבת עבודה מלאה לאיסוף מודיעין גלוי (OSINT) - מבוסס OSINT Framework</p>
+    </div>
+
+    <div class="legend-bar">
+        <span class="badge badge-passive">איסוף פאסיבי (בטוח)</span>
+        <span class="badge badge-active">איסוף אקטיבי (רעשני)</span>
+        <span class="badge badge-free">חינמי ללא הרשמה</span>
+        <span class="badge badge-auth">דורש משתמש/API</span>
+    </div>
+
+    <div class="target-box">
+        <label for="targetInput">🎯 הזן מטרה (Target):</label>
+        <input type="text" id="targetInput" placeholder="רשום את המטרה שלך כאן">
+    </div>
+
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('tab-workflow')">🧭 תחילת עבודה לפי נקודת פתיחה</button>
+            <button class="tab-btn" onclick="switchTab('tab-dorks')">🔎 Search Engine & Platform Dorks</button>
+            <button class="tab-btn" onclick="switchTab('tab-all-tools')">🛠️ ספריית כלים מלאה (OSINT Framework)</button>
+            <button class="tab-btn" onclick="switchTab('tab-cli')">💻 Terminal & CLI Cheat Sheet</button>
+            <button class="tab-btn" onclick="switchTab('tab-notes')">📝 פנקס רשימות לממצאים</button>
+        </div>
+
+        <!-- TAB: START / WORKFLOW -->
+        <div id="tab-workflow" class="tab-content active">
+            <div class="workflow-selector">
+                <h3>מה נקודת הפתיחה שברשותך?</h3>
+                <div class="selector-group">
+                    <button class="select-btn" onclick="showWorkflow('wf-domain', this)">🏢 דומיין / אתר</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-ip', this)">🌐 כתובת IP</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-email', this)">📧 אימייל</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-user', this)">👤 שם משתמש</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-location', this)">📍 מיקום / קואורדינטות</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-image', this)">🖼️ תמונה</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-phone', this)">📱 מספר טלפון</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-fullname', this)">🕵️‍♂️ שם מלא</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-company', this)">🏭 שם חברה / ארגון</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-code', this)">💻 קוד מקור (GitHub)</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-document', this)">📄 מסמך / קובץ</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-crypto', this)">💰 ארנק קריפטו</button>
+                    <button class="select-btn" onclick="showWorkflow('wf-hash', this)">#️⃣ Hash (גיבוב)</button>
+                </div>
+            </div>
+
+            <!-- WORKFLOW SECTIONS -->
+            <div id="wf-domain" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים מומלצים לחקירת דומיין:</h4>
+                    <p>איתור הבעלים, תאריכי רישום, סאב-דומיינים, שרתי דואר וטכנולוגיות בשימוש.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">DomainTools Whois</div>
+                            <div class="tool-desc">נתוני רישום, שרתי NameServers ואימייל של הרשם.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://whois.domaintools.com/{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">crt.sh Subdomains</div>
+                            <div class="tool-desc">חשיפת סאב-דומיינים מוסתרים דרך תעודות SSL.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://crt.sh/?q=%25.{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">BuiltWith Technology</div>
+                            <div class="tool-desc">זיהוי טכנולוגיות, שפות פיתוח ו-CMS של האתר.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://builtwith.com/{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Wayback Machine</div>
+                            <div class="tool-desc">היסטוריית שינויים וצילומים ישנים של האתר.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://web.archive.org/web/*/{target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-ip" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים מומלצים לחקירת כתובת IP:</h4>
+                    <p>איתור השרת המארח, המדינה, רשת ה-ASN ופורטים פתוחים.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">IPinfo.io</div>
+                            <div class="tool-desc">מיקום גיאוגרפי, ספק אינטרנט (ISP) ובדיקת VPN/Proxy.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://ipinfo.io/{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Shodan Host</div>
+                            <div class="tool-desc">סריקת פורטים פתוחים, שירותים וחולשות בשרת.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.shodan.io/host/{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">BGP Toolkit</div>
+                            <div class="tool-desc">מיפוי טווח כתובות ה-IP المלא של הארגון.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://bgp.he.net/ip/{target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-location" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים מומלצים לחקירה גיאוגרפית (GEOINT):</h4>
+                    <p>מה עושים עם מיקום/קואורדינטות: סקירת שטח, רשתות Wi-Fi סמוכות ומצלמות.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">Google Maps & Street View</div>
+                            <div class="tool-desc">סריקת תצלום אוויר, מבנים ושלטי רחוב.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.google.com/maps/search/{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Wigle.net</div>
+                            <div class="tool-desc">איתור רשתות Wi-Fi וכתובות MAC באזור המדויק.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://wigle.net/')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">SunCalc</div>
+                            <div class="tool-desc">אימות זמני צילום וזווית השמש והצל במיקום.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.suncalc.org/')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Insecam</div>
+                            <div class="tool-desc">מצלמות אבטחה ציבוריות ומשדרות באזור.</div>
+                            <button class="tool-action-btn" onclick="openUrl('http://www.insecam.org/')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-company" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים מומלצים לחקירת חברה / ארגון:</h4>
+                    <p>מיפוי בעלי תפקידים, רשמי חברות ואימיילים ארגוניים.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">LinkedIn Search</div>
+                            <div class="tool-desc">איתור עובדים, מנהלי סיסטם ומפתחים בחברה.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.google.com/search?q=site:linkedin.com/company/{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">OpenCorporates</div>
+                            <div class="tool-desc">רשם חברות גלובלי: דירקטורים, בעלי מניות וכתובת רשמית.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://opencorporates.com/companies?q={target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Hunter.io</div>
+                            <div class="tool-desc">מיפוי פורמט הכתובות ואימיילים של עובדי החברה.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://hunter.io/search/{target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-code" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת קוד מקור (GitHub OSINT):</h4>
+                    <p>איתור מפתחות API, סיסמאות שנקודדו בקוד ומידע פנימי שדלף.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">GitHub Code Search</div>
+                            <div class="tool-desc">חיפוש מפתחות API, סיסמאות וקונפיגורציות בקוד ציבורי.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://github.com/search?q={target}&type=code')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Grep.app</div>
+                            <div class="tool-desc">חיפוש קוד מהיר במליוני מאגרי קוד פתוח.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://grep.app/search?q={target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-email" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת כתובת אימייל:</h4>
+                    <p>אימות דליפות מידע וחשבונות מקושרים ברשת.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">Have I Been Pwned</div>
+                            <div class="tool-desc">בדיקת מעורבות בדליפות מידע וסיסמאות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://haveibeenpwned.com/account/{target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Epieos</div>
+                            <div class="tool-desc">גילוי פרופיל Google, ביקורות ב-Maps ויומן המקושרים למייל.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://epieos.com/?q={target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-user" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת שם משתמש (Username):</h4>
+                    <p>איתור חשבונות ברשתות חברתיות ופורומים.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">WhatsMyName.app</div>
+                            <div class="tool-desc">סריקת מאות אתרים לאיתור פרופילים פעילים.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://whatsmyname.app/?q={target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Namechk</div>
+                            <div class="tool-desc">בדיקת זמינות וקיום הכינוי בדומיינים וברשתות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://namechk.com/')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-image" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת תמונה:</h4>
+                    <p>חיפוש הפוך וחילוץ מטא-דאטה (EXIF).</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">Yandex Images</div>
+                            <div class="tool-desc">זיהוי פנים ומקור התמונה ברמת דיוק גבוהה.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://yandex.com/images/')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Jimpl EXIF Viewer</div>
+                            <div class="tool-desc">חילוץ GPS, דגם מצלמה ותאריך מקובץ התמונה.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://jimpl.com/')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-phone" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת מספר טלפון:</h4>
+                    <p>אימות בעלים, ספר טלפונים וזיהוי ספק.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">Truecaller</div>
+                            <div class="tool-desc">איתור שם מלא המשויך למספר הטלפון.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.truecaller.com/search/il/{target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-fullname" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת שם מלא:</h4>
+                    <p>איתור פרופילים, קשרים ואזכורים ברשת.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">WebMii</div>
+                            <div class="tool-desc">ציון נוכחות ברשת, תמונות ואנשים מקושרים.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://webmii.com/people?n={target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-document" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת מסמך:</h4>
+                    <p>ניתוח מטא-דאטה מוסתרת בקבצים.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">Metadata2Go</div>
+                            <div class="tool-desc">ניתוח שם המחבר ותוכנת העריכה מקבצי PDF/DOCX.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.metadata2go.com/')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-crypto" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת קריפטו:</h4>
+                    <p>מעקב אחר ארנקים ותנועות בלוקצ'יין.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">Blockchair</div>
+                            <div class="tool-desc">ניתוח העברות מרובות רשתות (BTC, ETH).</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://blockchair.com/search?q={target}')">הפעל כלי ↗</button>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-title">Etherscan</div>
+                            <div class="tool-desc">חקירת ארנקים וחוזה חכם ברשת Ethereum.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://etherscan.io/address/{target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="wf-hash" class="workflow-section" style="display: none;">
+                <div class="workflow-card">
+                    <h4>צעדים לחקירת Hash:</h4>
+                    <p>בדיקה מול מודיעין איומים ופענוח.</p>
+                    <div class="btn-group">
+                        <div class="tool-card">
+                            <div class="tool-title">VirusTotal</div>
+                            <div class="tool-desc">בדיקת ה-Hash מול עשרות מנועי אנטי-וירוס.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.virustotal.com/gui/search/{target}')">הפעל כלי ↗</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB: DORKS CATEGORY -->
+        <div id="tab-dorks" class="tab-content">
+            <div class="category-card" style="border: 2px solid var(--accent-purple);">
+                <h2>🔎 Search Engine & Platform Dorking (חיפוש ממוקד מתקדם)</h2>
+                <div class="tools-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 15px; margin-top: 15px;">
+
+                    <!-- Google Dorks -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Google: Index Directory Listings</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> חשיפת תיקיות פתוחות לציבור בשרת.<br><b>שאילתה:</b> <code>site:{target} intitle:"index of"</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.google.com/search?q=site:{target}+intitle:%22index+of%22')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Google: Sensitive Exposed Documents</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> איתור קבצים רגישים (PDF, DOCX, XLSX, ENV).<br><b>שאילתה:</b> <code>site:{target} ext:pdf OR ext:xlsx OR ext:docx OR ext:env</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.google.com/search?q=site:{target}+ext:pdf+OR+ext:xlsx+OR+ext:docx+OR+ext:env')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Google: Exposed Admin & Login Portals</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> איתור נתיבי התחברות ופאנלי ניהול מוסתרים.<br><b>שאילתה:</b> <code>site:{target} inurl:admin OR inurl:login OR inurl:portal</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.google.com/search?q=site:{target}+inurl:admin+OR+inurl:login+OR+inurl:portal')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <!-- Shodan Dorks -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Shodan: Open Databases (Elastic/Mongo)</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> חשיפת מסדי נתונים פתוחים ללא סיסמה ברשת.<br><b>שאילתה:</b> <code>hostname:{target} port:9200,27017 "200 OK"</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.shodan.io/search?query=hostname:{target}+port:9200,27017')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Shodan: Webcams & Surveillance</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> איתור מצלמות אבטחה המחוברות לרשת בארגון.<br><b>שאילתה:</b> <code>org:"{target}" product:"webcam" OR "ip camera"</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.shodan.io/search?query=org:%22{target}%22+product:%22webcam%22')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <!-- LinkedIn Dorks -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">LinkedIn: Employee Reconnaissance</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> מיפוי כל העובדים המשוייכים לארגון.<br><b>שאילתה:</b> <code>site:linkedin.com/in/ "{target}"</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.google.com/search?q=site:linkedin.com/in/+%22{target}%22')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">LinkedIn: Tech Stack & IT Staff</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> איתור אנשי IT, סייבר ומפתחים בחברה.<br><b>שאילתה:</b> <code>site:linkedin.com/in/ "{target}" ("DevOps" OR "Cyber" OR "SysAdmin")</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.google.com/search?q=site:linkedin.com/in/+%22{target}%22+(%22DevOps%22+OR+%22Cyber%22+OR+%22SysAdmin%22)')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <!-- GitHub Dorks -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">GitHub: Hardcoded API Keys & Tokens</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> מציאת מפתחות API, מפתחות AWS ו-Tokens בקוד.<br><b>שאילתה:</b> <code>"{target}" "api_key" OR "secret_key" OR "bearer"</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://github.com/search?q=%22{target}%22+%22api_key%22+OR+%22secret_key%22&type=code')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">GitHub: Passwords & Config Files</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> חשיפת סיסמאות מוגדרות מראש בקבצי הקונפיגורציה.<br><b>שאילתה:</b> <code>"{target}" password filename:config OR filename:env</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://github.com/search?q=%22{target}%22+password+filename:env&type=code')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <!-- Bing Dorks -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Bing: Shared IP / Co-hosted Sites</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> איתור אתרים נוספים המארחים על אותה כתובת IP.<br><b>שאילתה:</b> <code>ip:{target}</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.bing.com/search?q=ip:{target}')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <!-- DuckDuckGo Dorks -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">DuckDuckGo: Hidden Filetypes</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> חיפוש אנונימי ממוקד קבצי SQL, LOG ו-CONF.<br><b>שאילתה:</b> <code>site:{target} filetype:log OR filetype:sql OR filetype:conf</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://duckduckgo.com/?q=site:{target}+filetype:log+OR+filetype:sql')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <!-- Yandex Dorks -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Yandex: Unindexed Subdomains</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> גילוי סאב-דומיינים שלא הופיעו בגוגל/בינג.<br><b>שאילתה:</b> <code>site:{target}</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://yandex.com/search/?text=site:{target}')">הפעל שאילתה ↗</button>
+                    </div>
+
+                    <!-- SCADA / ICS Shodan -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <span class="tool-title">Shodan: Industrial Control Systems (SCADA)</span>
+                            <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה</span></div>
+                        </div>
+                        <div class="tool-desc"><b>מטרה:</b> איתור בקרי ICS/SCADA ופתרונות תשתית (Modbus, Siemens).<br><b>שאילתה:</b> <code>net:{target} port:502,102</code></div>
+                        <button class="tool-action-btn" onclick="openUrl('https://www.shodan.io/search?query=net:{target}+port:502,102')">הפעל שאילתה ↗</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: ALL TOOLS (FULL OSINT FRAMEWORK LIBRARY) -->
+        <div id="tab-all-tools" class="tab-content">
+            <div class="category-grid">
+
+                <!-- CATEGORY 1: DOMAINS & IP -->
+                <div class="category-card">
+                    <h2>🏢 דומיין ו-IP (Domain / IP Records)</h2>
+                    <div class="tools-list">
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Whois (DomainTools)</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> איתור פרטי בעלי הדומיין.<br><b>מה מוצאים:</b> תאריך רישום/תפוגה, שרתי NameServer, שם הרשם ואימייל ליצירת קשר.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://whois.domaintools.com/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">crt.sh (Certificate Search)</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חיפוש בתקני SSL/TLS שהונפקו לדומיין.<br><b>מה מוצאים:</b> סאב-דומיינים מוסתרים (Subdomains) ששרדו בהיסטוריית התעודות של האתר.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://crt.sh/?q=%25.{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">BuiltWith</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> ניתוח הטכנולוגיות עליהן האתר מושתת.<br><b>מה מוצאים:</b> שפות פיתוח, מערכות ניהול תוכן (CMS), תוספים, שירותי אנליטיקה ו-Frameworks.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://builtwith.com/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Wayback Machine</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> צפייה בגרסאות היסטוריות של האתר.<br><b>מה מוצאים:</b> דפים שנמחקו, שינויי תוכן לאורך השנים, גרסאות ישנות ומידע רגיש שהוסר.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://web.archive.org/web/*/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">ViewDNS.info</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> בדיקת תקינות והיסטוריית DNS.<br><b>מה מוצאים:</b> היסטוריית IP של האתר, שרתי דואר (MX Records), ובדיקת Reverse IP.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://viewdns.info/dnsreport/?domain={target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">IPinfo.io</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> תחקור כתובת IP.<br><b>מה מוצאים:</b> מיקום גיאוגרפי משוער, ספק אינטרנט (ISP), זיהוי שרתי אחסון/Cloud, והאם מדובר ב-VPN/Proxy.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://ipinfo.io/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">BGP Toolkit (HE)</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חקירת רשתות וניתובים ברמת ספק ברשת.<br><b>מה מוצאים:</b> טווח כתובות IP מלא המשויך לארגון (ASN Prefixes) וקשרי גומלין בין רשתות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://bgp.he.net/ip/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY 2: GEOLOCATION & MAPS -->
+                <div class="category-card">
+                    <h2>📍 מיקום וגאוגרפיה (GEOINT & Geolocation)</h2>
+                    <div class="tools-list">
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Google Maps & Street View</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> סקירת שטח פיזית מגובה העיניים.<br><b>מה מוצאים:</b> שלטי רחוב, מבנה פיזי, מצלמות מעקב סמוכות ופרטי סביבה.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.google.com/maps/search/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Wigle.net</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> מיפוי ואיתור רשתות אלחוטיות ומשדרים.<br><b>מה מוצאים:</b> מיקומים של רשתות Wi-Fi, כתובות MAC של ראוטרים ונקודות גישה סלולריות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://wigle.net/')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">SunCalc</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> ניתוח צל ואור יום.<br><b>מה מוצאים:</b> אימות תאריך ושעת צילום של תמונה פיזית לפי זווית הצל במיקום גיאוגרפי.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.suncalc.org/')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Insecam</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> מצלמות מעקב ציבוריות ופתוחות.<br><b>מה מוצאים:</b> שידורים חיים ממצלמות אבטחה לא מאובטחות המשדרות מאזור גיאוגרפי.</div>
+                            <button class="tool-action-btn" onclick="openUrl('http://www.insecam.org/')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY 3: USERNAME & PEOPLE SEARCH -->
+                <div class="category-card">
+                    <h2>👤 שמות משתמש ואנשים (Usernames & People)</h2>
+                    <div class="tools-list">
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">WhatsMyName.app</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> איתור כינויים וחשבונות ברשת.<br><b>מה מוצאים:</b> סורק מאות פלטפורמות (פורומים, רשתות חברתיות) ומציג איפה ה-Username קיים.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://whatsmyname.app/?q={target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Namechk</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> בדיקת תפוסת שמות משתמש.<br><b>מה מוצאים:</b> סורק דומיינים ורשתות חברתיות נוספות לזיהוי נוכחות דיגיטלית של כינוי.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://namechk.com/')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">WebMii</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חיפוש לפי שם מלא של אדם.<br><b>מה מוצאים:</b> מציג ציון נוכחות ברשת, תמונות, קשרים לאנשים אחרים, ואזכורים באתרים שונים.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://webmii.com/people?n={target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">LinkedIn Dorking</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חיפוש ממוקד של עובדים ופרופילים מקצועיים.<br><b>מה מוצאים:</b> איתור תפקידים, טכנולוגיות בשימוש החברה, והיסטוריה תעסוקתית ללא צורך בהתחברות פנימית.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://google.com/search?q=%22{target}%22+site:linkedin.com')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Truecaller</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">דורש התחברות</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> זיהוי שיטתי של מספרי טלפון.<br><b>מה מוצאים:</b> שם מלא של בעל הקו, אימייל משויך במקרים מסוימים, ודיווחים על דואר זבל.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.truecaller.com/search/il/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY 4: EMAIL ADDRESSES & BREACHES -->
+                <div class="category-card">
+                    <h2>📧 אימייל ודליפות מידע (Emails & Breaches)</h2>
+                    <div class="tools-list">
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Have I Been Pwned</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> בדיקת מעורבות בדליפות מידע.<br><b>מה מוצאים:</b> שמות מאגרי מידע שפרצו והכילו את כתובת המייל, ואיזה סוג מידע נחשף.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://haveibeenpwned.com/account/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Epieos</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> איסוף OSINT על כתובת אימייל ללא התרעה לנחקר.<br><b>מה מוצאים:</b> מציג שירותי Google המקושרים למייל (Google Maps, Calendar, Review), ותמונת פרופיל.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://epieos.com/?q={target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Hunter.io</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה/חינם</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> מיפוי כתובות אימייל של ארגונים.<br><b>מה מוצאים:</b> מוצא כתובות דוא"ל השייכות לדומיין ארגוני מסוים ואת הסטנדרט המקובל בחברה.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://hunter.io/search/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY 5: COMPANIES & CODE -->
+                <div class="category-card">
+                    <h2>🏭 חברות וקוד מקור (Companies & Source Code)</h2>
+                    <div class="tools-list">
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">OpenCorporates</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חקירת רשמי חברות גלובליים.<br><b>מה מוצאים:</b> בעלי מניות, תאריך התאגדות, מנהלים רשומים וכתובת רשמית של החברה.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://opencorporates.com/companies?q={target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">GitHub Code Search</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חיפוש מחרוזות בקוד ציבורי.<br><b>מה מוצאים:</b> קבצי קונפיגורציה, מפתחות API (API Keys), כתובות IP פנימיות ונתוני התחברות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://github.com/search?q={target}&type=code')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Grep.app</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חיפוש קוד מהיר במליוני מאגרי Git.<br><b>מה מוצאים:</b> איתור מחרוזות בקוד פתוח ברמת מהירות גבוהה במיוחד.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://grep.app/search?q={target}')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY 6: THREAT INTELLIGENCE & SHODAN -->
+                <div class="category-card">
+                    <h2>🛡️ מודיעין איומים וסריקות (Threat Intel)</h2>
+                    <div class="tools-list">
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Shodan Host Search</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-auth">הרשמה/חינם</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> מנוע חיפוש לרכיבי חומרה ושרתים המחוברים לאינטרנט.<br><b>מה מוצאים:</b> פורטים פתוחים, באנרים של שירותים, מצלמות אבטחה וחולשות מוכרות (CVEs).</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.shodan.io/host/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">VirusTotal</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> ניתוח קבצים, כתובות IP, דומיינים ו-Hashes.<br><b>מה מוצאים:</b> האם הישות מוכרת כזדונית ע"י מנועי אנטי-וירוס, תעודות מבוססות וקשרים לנוזקות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.virustotal.com/gui/search/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">urlscan.io</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> סריקה ובדיקה בטוחה של אתרי אינטרנט.<br><b>מה מוצאים:</b> צילום מסך של האתר, בקשות HTTP שנשלחו, קבצי JavaScript שנטענו והאם הדף מכיל פישינג.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://urlscan.io/search/#*{target}*')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY 7: IMAGES & METADATA -->
+                <div class="category-card">
+                    <h2>🖼️ תמונות ומטא-דאטה (Images & Metadata)</h2>
+                    <div class="tools-list">
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Yandex Visual Search</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חיפוש תמונות הפוך מתקדם.<br><b>מה מוצאים:</b> מאתר את המקור המקורי של תמונה, מזהה פנים ומבנים גם בזוויות שונות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://yandex.com/images/')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Jimpl EXIF Viewer</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חילוץ מטא-דאטה מתמונות.<br><b>מה מוצאים:</b> קואורדינטות GPS שבהן צולמה התמונה, דגם המכשיר, הגדרות צילום ותאריך.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://jimpl.com/')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Metadata2Go</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> ניתוח נתונים מוסתרים במגוון קבצים (DOCX, PDF, ZIP).<br><b>מה מוצאים:</b> שם מחבר הקובץ, גרסת תוכנה, היסטוריית עריכות ומזהים ייחודיים.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://www.metadata2go.com/')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- CATEGORY 8: CRYPTOCURRENCY -->
+                <div class="category-card">
+                    <h2>💰 מטבעות דיגיטליים (Cryptocurrency)</h2>
+                    <div class="tools-list">
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Blockchair Multi-Chain</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חקירת בלוקצ'יין מרובת רשתות (BTC, ETH, LTC).<br><b>מה מוצאים:</b> היסטוריית העברות מלאה, סכומים, ארנקים מעורבים ועמלות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://blockchair.com/search?q={target}')">הפעל כלי ↗</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <span class="tool-title">Etherscan</span>
+                                <div class="btn-badges"><span class="badge badge-passive">פאסיבי</span><span class="badge badge-free">חינמי</span></div>
+                            </div>
+                            <div class="tool-desc"><b>מטרה:</b> חקירת ארנקים וחוזה חכם ברשת Ethereum.<br><b>מה מוצאים:</b> אינטראקציות עם חוזים, מחזורי Token (ERC-20), בעלות על NFTs ויתרות.</div>
+                            <button class="tool-action-btn" onclick="openUrl('https://etherscan.io/address/{target}')">הפעל כלי ↗</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- NEW TAB: TERMINAL / CMD / POWERSHELL CHEAT SHEET & SEARCH ENGINE -->
+        <div id="tab-cli" class="tab-content">
+            <div class="cli-search-container">
+                <h2 style="color: var(--accent-blue); margin-bottom: 10px;">💻 מנוע חיפוש פקודות Terminal / CMD / PowerShell</h2>
+                <p style="color: var(--text-muted);">בחר מערכת הפעלה והקלד מה אתה מנסה לבצע לקבלת פקודות שימושיות למערכת שברשותך.</p>
+                
+                <div class="cli-inputs">
+                    <select id="cliOsSelect" class="cli-select" onchange="filterCommands()">
+                        <option value="all">כל מערכות ההפעלה</option>
+                        <option value="windows">Windows (CMD / PowerShell)</option>
+                        <option value="linux">Linux / Kali Terminal</option>
+                        <option value="macos">macOS Terminal</option>
+                    </select>
+                    <input type="text" id="cliQuery" class="cli-input" placeholder="מה אתה מנסה לבצע? (לדוגמה: IP, DNS, Nmap, Ports, Hash, HTTP, Header)..." oninput="filterCommands()">
+                </div>
+
+                <div id="cliResults" class="cli-results">
+                    <!-- Dynamic CLI Output will load here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: NOTES -->
+        <div id="tab-notes" class="tab-content">
+            <div class="category-card" style="max-width: 800px; margin: 0 auto;">
+                <h2>📝 מחברת ממצאים (נשמר מקומית)</h2>
+                <textarea id="osintNotes" style="width: 100%; height: 300px; background: #0f172a; color: var(--accent-green); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; font-family: 'Fira Code', monospace; resize: vertical;" placeholder="הקלד כאן את הממצאים שלך... (הכל נשמר בדפדפן בלבד)"></textarea>
+                <button onclick="saveNotes()" style="margin-top: 15px; background: var(--accent-blue); color: #000; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">💾 שמור ממצאים</button>
+                <span id="saveIndicator" style="color: var(--accent-green); margin-right: 15px; opacity: 0; transition: opacity 0.3s;">נשמר בהצלחה!</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // CLI Commands Data Base - Clean Commands with Structured Flags Options
+        const cliCommands = [
+            // IP & Interfaces
+            { 
+                title: "בדיקת כתובות IP וכרטיסי רשת", 
+                os: "windows", 
+                tags: "ip network interface config", 
+                cmd: "ipconfig",
+                flags: [
+                    { flag: "/all", desc: "הצגת פרטי תצורה מלאים של כל כרטיסי הרשת" },
+                    { flag: "/flushdns", desc: "איפוס וריקון מטמון ה-DNS במערכת" },
+                    { flag: "/release", desc: "שחרור כתובת ה-IPv4 הנוכחית מול שרת ה-DHCP" },
+                    { flag: "/renew", desc: "חידוש בקשת כתובת IP משרת ה-DHCP" },
+                    { flag: "/displaydns", desc: "הצגת תוכן מטמון ה-DNS השמור במערכת" }
+                ]
+            },
+            { 
+                title: "בדיקת כתובות IP וכרטיסי רשת (ip / ifconfig)", 
+                os: "linux", 
+                tags: "ip network interface config", 
+                cmd: "ip a",
+                flags: [
+                    { flag: "a / addr", desc: "הצגת כל כתובות ה-IP והממשקים" },
+                    { flag: "link show", desc: "הצגת סטטוס שכבת הקישור (MAC) של כרטיסי הרשת" },
+                    { flag: "-s", desc: "הצגת סטטיסטיקות תנועה (Packets/Errors) עבור הממשקים" },
+                    { flag: "-4", desc: "סינון והצגת כתובות IPv4 בלבד" },
+                    { flag: "-6", desc: "סינון והצגת כתובות IPv6 בלבד" }
+                ]
+            },
+            { 
+                title: "בדיקת כתובות IP וכרטיסי רשת", 
+                os: "macos", 
+                tags: "ip network interface config", 
+                cmd: "ifconfig",
+                flags: [
+                    { flag: "-a", desc: "הצגת כל הממשקים במערכת גם אם הם אינם פעילים" },
+                    { flag: "en0 / en1", desc: "מיקוד הפלט בממשק רשת ספציפי (כגון Wi-Fi או Ethernet)" },
+                    { flag: "inet", desc: "הצגת פרטי פרוטוקול IPv4 בלבד" }
+                ]
+            },
+            
+            // DNS Cache
+            { 
+                title: "איפוס מטמון DNS (Flush DNS)", 
+                os: "windows", 
+                tags: "dns flush cache ip", 
+                cmd: "ipconfig /flushdns",
+                flags: [
+                    { flag: "/flushdns", desc: "מחיקת כל רשומות ה-DNS המאוחסנות במטמון המקומי" },
+                    { flag: "/registerdns", desc: "רענון כל החציצות של ה-DHCP ורישום מחדש של שמות DNS" }
+                ]
+            },
+            { 
+                title: "איפוס מטמון DNS (Flush DNS)", 
+                os: "linux", 
+                tags: "dns flush cache ip", 
+                cmd: "sudo resolvectl flush-caches",
+                flags: [
+                    { flag: "flush-caches", desc: "ניקוי מטמון ה-DNS של שירות systemd-resolved" },
+                    { flag: "statistics", desc: "הצגת סטטיסטיקות מטמון ושאילתות DNS" }
+                ]
+            },
+            { 
+                title: "איפוס מטמון DNS (Flush DNS)", 
+                os: "macos", 
+                tags: "dns flush cache ip", 
+                cmd: "sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder",
+                flags: [
+                    { flag: "-flushcache", desc: "פלאג של dscacheutil למחיקת המטמון" },
+                    { flag: "-HUP", desc: "אות (Signal) לאתחול מחדש של תהליך mDNSResponder" }
+                ]
+            },
+
+            // Ping
+            { 
+                title: "בדיקת חיבוריות ושרתים (Ping)", 
+                os: "windows", 
+                tags: "ping network host ICMP", 
+                cmd: "ping {target}",
+                flags: [
+                    { flag: "-t", desc: "ביצוע בדיקת Ping רציפה ללא הפסקה (עד לעצירה ב-Ctrl+C)" },
+                    { flag: "-n [count]", desc: "קביעת מספר בקשות ה-Echo לשליחה (ברירת מחדל: 4)" },
+                    { flag: "-l [size]", desc: "קביעת גודל החבילה בבלוקי בייטים (Buffer Size)" },
+                    { flag: "-a", desc: "פענוח כתובת IP לשם המארח (Reverse Lookup)" },
+                    { flag: "-4 / -6", desc: "כפיית שימוש ב-IPv4 או IPv6 בלבד" }
+                ]
+            },
+            { 
+                title: "בדיקת חיבוריות ושרתים (Ping)", 
+                os: "linux", 
+                tags: "ping network host ICMP", 
+                cmd: "ping {target}",
+                flags: [
+                    { flag: "-c [count]", desc: "קביעת מספר החבילות לשליחה לפני עצירה" },
+                    { flag: "-i [interval]", desc: "קביעת מרווח הזמן בשניות בין חבילה לחבילה" },
+                    { flag: "-s [size]", desc: "הגדרת גודל החבילה בבייטים" },
+                    { flag: "-W [timeout]", desc: "קביעת זמן המתנה מירבי למענה בשניות" },
+                    { flag: "-f", desc: "שליחת חבילות במהירות מרבית (Flood ping - דורש root)" }
+                ]
+            },
+
+            // DNS Reconnaissance
+            { 
+                title: "תחקור רשומות DNS בסיסי (NSLOOKUP)", 
+                os: "windows", 
+                tags: "dns nslookup domain ip recon", 
+                cmd: "nslookup {target}",
+                flags: [
+                    { flag: "-type=A", desc: "שאילתה לקבלת כתובת ה-IPv4 המשויכת לדומיין" },
+                    { flag: "-type=AAAA", desc: "שאילתה לקבלת כתובת ה-IPv6" },
+                    { flag: "-type=MX", desc: "חילוץ שרתי הדואר האלקטרוני של הארגון" },
+                    { flag: "-type=TXT", desc: "חילוץ רשומות טקסט (SPF, DKIM, אימותי בעלות)" },
+                    { flag: "-type=NS", desc: "איתור שרתי השמות (Name Servers) המוסמכים" },
+                    { flag: "-type=ANY", desc: "בקשת כל רשומות ה-DNS הזמינות בו-זמנית" }
+                ]
+            },
+            { 
+                title: "תחקור רשומת DNS ספציפית (NSLOOKUP)", 
+                os: "windows", 
+                tags: "dns nslookup mx txt ns", 
+                cmd: "nslookup {target}",
+                flags: [
+                    { flag: "-type=TXT", desc: "בדיקת רשומות TXT (הגנות מייל, מפתח ציבורי)" },
+                    { flag: "-type=MX", desc: "בדיקת שרתי הדואר של היעד" },
+                    { flag: "-type=CNAME", desc: "חשיפת השם הקנוני והפניות של סאב-דומיינים" },
+                    { flag: "-debug", desc: "הצגת מידע תחקור מפורט כולל כותרות החבילה" }
+                ]
+            },
+            { 
+                title: "תחקור רשומות DNS מפורט (DIG)", 
+                os: "linux", 
+                tags: "dns dig domain ip recon", 
+                cmd: "dig {target}",
+                flags: [
+                    { flag: "ANY", desc: "שאילתה לקבלת כל רשומות ה-DNS הקיימות" },
+                    { flag: "+short", desc: "הצגת פלט נקי ומקוצר בלבד (מצוין לסקריפטים)" },
+                    { flag: "+noall +answer", desc: "הסתרת כותרות והצגת חלק התשובה בלבד" },
+                    { flag: "+trace", desc: "ביצוע מעקב מלא משרתי ה-Root ועד השרת המוסמך" },
+                    { flag: "-x [IP]", desc: "ביצוע שאילתת Reverse DNS לאיתור שם דומיין מכתובת IP" }
+                ]
+            },
+            { 
+                title: "איתור שרתי דואר ב-Dig", 
+                os: "linux", 
+                tags: "dns dig mx mail recon", 
+                cmd: "dig {target}",
+                flags: [
+                    { flag: "MX", desc: "בקשת רשומות שרתי דואר" },
+                    { flag: "+short", desc: "החזרת שמות השרתים והעדיפויות בלבד" },
+                    { flag: "@[DNS_Server]", desc: "ביצוע השאילתה מול שרת DNS ספציפי" }
+                ]
+            },
+            { 
+                title: "בדיקת העברת אזור DNS (Zone Transfer)", 
+                os: "linux", 
+                tags: "dns dig axfr zone transfer recon", 
+                cmd: "dig {target}",
+                flags: [
+                    { flag: "axfr", desc: "בקשת העברת אזור מלאה (Zone Transfer)" },
+                    { flag: "@[NS_Server]", desc: "פנייה ישירה לשרת ה-Name Server של היעד" },
+                    { flag: "+nocmd", desc: "השמטת שורת הפקודה בפלט" }
+                ]
+            },
+            { 
+                title: "תחקור בעלות דומיין ו-IP (WHOIS)", 
+                os: "linux", 
+                tags: "whois domain ip owner recon", 
+                cmd: "whois {target}",
+                flags: [
+                    { flag: "-h [server]", desc: "פנייה לשרת WHOIS ספציפי" },
+                    { flag: "-p [port]", desc: "הגדרת פורט התחברות לשרת ה-WHOIS" },
+                    { flag: "-i [attribute]", desc: "חיפוש ממוקד לפי מאפיין מסוים" }
+                ]
+            },
+
+            // Active Connections & Ports
+            { 
+                title: "הצגת חיבורים פעילים ופורטים פתוחים", 
+                os: "windows", 
+                tags: "ports netstat listening connections", 
+                cmd: "netstat",
+                flags: [
+                    { flag: "-a", desc: "הצגת כל החיבורים והפורטים המאזינים (Listening)" },
+                    { flag: "-n", desc: "הצגת כתובות ופורטים בצורה נומרית (ללא תרגום לשמות)" },
+                    { flag: "-o", desc: "הצגת מזהה התהליך (PID) המשויך לכל חיבור" },
+                    { flag: "-b", desc: "הצגת שם הקובץ ההפעלה (Exe) המעורב בחיבור (דורש הרשאת אדמין)" },
+                    { flag: "-r", desc: "הצגת טבלת הניתוב (Routing Table) של המערכת" }
+                ]
+            },
+            { 
+                title: "הצגת חיבורים פעילים כולל שמות תהליכים", 
+                os: "windows", 
+                tags: "ports netstat process listening", 
+                cmd: "netstat",
+                flags: [
+                    { flag: "-abno", desc: "שילוב הצגת כל החיבורים, שמות תהליכים, כתובות במספרים ו-PID" },
+                    { flag: "-p [proto]", desc: "סינון לפי פרוטוקול ספציפי (TCP או UDP)" },
+                    { flag: "-e", desc: "הצגת סטטיסטיקות Ethernet של תנועת הרשת" }
+                ]
+            },
+            { 
+                title: "הצגת חיבורים פעילים ופורטים פתוחים (SS / Netstat)", 
+                os: "linux", 
+                tags: "ports netstat ss listening connections", 
+                cmd: "ss",
+                flags: [
+                    { flag: "-t", desc: "הצגת חיבורי TCP" },
+                    { flag: "-u", desc: "הצגת חיבורי UDP" },
+                    { flag: "-l", desc: "הצגת פורטים במצב האזנה (Listening) בלבד" },
+                    { flag: "-n", desc: "הצגת כתובות ופורטים במספרים ללא תרגום שמות" },
+                    { flag: "-p", desc: "הצגת שם התהליך וה-PID המשויך לפורט (דורש sudo)" },
+                    { flag: "-tulnp", desc: "צירוף פלאגים נפוץ לצפייה בכל הפורטים הפתוחים והתהליכים" }
+                ]
+            },
+            { 
+                title: "בדיקת פורט פתוח ב-PowerShell", 
+                os: "windows", 
+                tags: "powershell test-netconnection port tcp", 
+                cmd: "Test-NetConnection -ComputerName {target}",
+                flags: [
+                    { flag: "-Port [port]", desc: "הגדרת מספר הפורט לבדיקת חיבוריות TCP" },
+                    { flag: "-InformationLevel Detailed", desc: "הצגת מידע מפורט כולל נתיב הניתוב" },
+                    { flag: "-TraceRoute", desc: "ביצוע מעקב נתיב (Traceroute) אל המטרה" }
+                ]
+            },
+
+            // NMAP Scans (Reconnaissance & Footprinting)
+            { 
+                title: "Nmap: סריקה מהירה", 
+                os: "linux", 
+                tags: "nmap scan ports recon fast", 
+                cmd: "nmap {target}",
+                flags: [
+                    { flag: "-F", desc: "סריקה מהירה של 100 הפורטים הנפוצים ביותר" },
+                    { flag: "-p [ports]", desc: "הגדרת פורט או טווח פורטים לסריקה (לדוגמה: -p 80,443)" },
+                    { flag: "-T[0-5]", desc: "קביעת מהירות ופרופיל הסריקה (T4 מומלץ, T0 איטי וסמוי)" },
+                    { flag: "-pn", desc: "ביטול בדיקת Ping מקדימה (שימושי כשיש Firewall שחוסם ICMP)" }
+                ]
+            },
+            { 
+                title: "Nmap: זיהוי גרסאות שירותים ומערכת הפעלה", 
+                os: "linux", 
+                tags: "nmap scan ports recon version OS", 
+                cmd: "nmap {target}",
+                flags: [
+                    { flag: "-sV", desc: "סריקת גרסאות שירותים הרצים על הפורטים הפתוחים" },
+                    { flag: "-sC", desc: "הרצת סקריפטים בסיסיים של Nmap (NSE Default Scripts)" },
+                    { flag: "-O", desc: "זיהוי מערכת ההפעלה של שרת היעד" },
+                    { flag: "-A", desc: "סריקה מקיפה: כוללת זיהוי OS, גרסאות, סקריפטים ו-Traceroute" }
+                ]
+            },
+            { 
+                title: "Nmap: סריקה מלאה של כל הפורטים", 
+                os: "linux", 
+                tags: "nmap scan ports full all", 
+                cmd: "nmap {target}",
+                flags: [
+                    { flag: "-p-", desc: "סריקה מלאה של כל 65,535 הפורטים במערכת" },
+                    { flag: "--open", desc: "הצגת פורטים פתוחים בלבד בפלט" },
+                    { flag: "-min-rate [number]", desc: "קביעת קצב שליחת חבילות מינימלי בשנייה למהירות מרבית" }
+                ]
+            },
+            { 
+                title: "Nmap: סריקת פורטי UDP", 
+                os: "linux", 
+                tags: "nmap scan udp ports recon", 
+                cmd: "nmap {target}",
+                flags: [
+                    { flag: "-sU", desc: "הפעלת מצב סריקת פורטי UDP (איטי יותר מסריקת TCP)" },
+                    { flag: "--top-ports [num]", desc: "סריקת מספר הפורטים הנפוצים ביותר בפרוטוקול UDP" },
+                    { flag: "-v", desc: "הצגת פלט מפורט בזמן אמת (Verbose)" }
+                ]
+            },
+            { 
+                title: "Nmap: סריקת חולשות בעזרת סקריפטים (NSE)", 
+                os: "linux", 
+                tags: "nmap scan vulns nse scripts recon", 
+                cmd: "nmap {target}",
+                flags: [
+                    { flag: "--script vuln", desc: "הרצת קטגוריית סקריפטים לאיתור חולשות אבטחה מוכרות" },
+                    { flag: "--script http-enum", desc: "סריקה וזיהוי תיקיות ונתיבים מוכרים בשרתי Web" },
+                    { flag: "--script-args [args]", desc: "העברת ארגומנטים ופרמטרים לסקריפטים של NSE" }
+                ]
+            },
+            { 
+                title: "Nmap: גילוי מארחים ברשת (Ping Sweep)", 
+                os: "linux", 
+                tags: "nmap ping sweep discovery network", 
+                cmd: "nmap {target}/24",
+                flags: [
+                    { flag: "-sn", desc: "סריקת גילוי מארחים בלבד ללא סריקת פורטים (Ping Sweep)" },
+                    { flag: "-PR", desc: "שימוש בבקשות ARP לבדיקת מארחים ברשת מקומית (LAN)" },
+                    { flag: "-oG [file]", desc: "שמירת התוצאות בפורמט נוח לסינון באמצעות Grep" }
+                ]
+            },
+
+            // Web & HTTP Reconnaissance (Curl / Wget)
+            { 
+                title: "חילוץ כותרות HTTP Headers מהאתר (Curl)", 
+                os: "linux", 
+                tags: "curl http headers banner grabbing recon", 
+                cmd: "curl https://{target}",
+                flags: [
+                    { flag: "-I / --head", desc: "שליחת בקשת HEAD בלבד לקבלת כותרות ה-HTTP ללא תוכן הדף" },
+                    { flag: "-L", desc: "מעקב אחר הפניות מחדש (HTTP Redirects)" },
+                    { flag: "-k / --insecure", desc: "תקשורת ללא אימות תקינות תעודות SSL/TLS" },
+                    { flag: "-v", desc: "הצגת כל נתוני התקשורת הנשלחים והמתקבלים (Verbose)" },
+                    { flag: "-A [agent]", desc: "הגדרת מחרוזת User-Agent מותאמת אישית" }
+                ]
+            },
+            { 
+                title: "הורדת קובץ / תוכן עמוד ב-Curl", 
+                os: "linux", 
+                tags: "curl fetch http web", 
+                cmd: "curl https://{target}",
+                flags: [
+                    { flag: "-o [filename]", desc: "שמירת פלט התוכן בקובץ מקומי בשם מוגדר" },
+                    { flag: "-O", desc: "שמירת הקובץ בשמו המקורי מהשרת" },
+                    { flag: "-C -", desc: "חידוש הורדה שנעצרה באמצע" }
+                ]
+            },
+            { 
+                title: "בקשת HTTP ב-PowerShell", 
+                os: "windows", 
+                tags: "powershell web http request recon", 
+                cmd: "Invoke-WebRequest -Uri 'https://{target}'",
+                flags: [
+                    { flag: "-Method HEAD", desc: "בקשת כותרות בלבד ללא גוף התשובה" },
+                    { flag: "-UseBasicParsing", desc: "שימוש במנוע הניתוח הבסיסי (מהיר יותר וללא תלות ב-DOM)" },
+                    { flag: "-Headers @{...}", desc: "הוספת כותרות מותאמות אישית לבקשה" },
+                    { flag: "-OutFile [path]", desc: "שמירת התוכן שירד לקובץ במערכת" }
+                ]
+            },
+
+            // Routing & MAC Tables
+            { 
+                title: "ניתוח נתיב תקשורת (Tracert)", 
+                os: "windows", 
+                tags: "tracert route hops ip", 
+                cmd: "tracert {target}",
+                flags: [
+                    { flag: "-d", desc: "מניעת פענוח כתובות IP לשמות מארחים (לניתוח מהיר יותר)" },
+                    { flag: "-h [max_hops]", desc: "קביעת מספר הקפיצות (Hops) המרבי בדרך ליעד" },
+                    { flag: "-w [timeout]", desc: "קביעת זמן המתנה במאיות השנייה לכל מענה" },
+                    { flag: "-4 / -6", desc: "כפיית שימוש בפרוטוקול IPv4 או IPv6" }
+                ]
+            },
+            { 
+                title: "ניתוח נתיב תקשורת (Traceroute)", 
+                os: "linux", 
+                tags: "traceroute route hops ip", 
+                cmd: "traceroute {target}",
+                flags: [
+                    { flag: "-n", desc: "הצגת כתובות IP נומריות ללא פענוח שמות DNS" },
+                    { flag: "-T", desc: "שימוש בחבילות TCP SYN בבדיקה במקום UDP (עוקף חומות אש)" },
+                    { flag: "-I", desc: "שימוש בחבילות ICMP ECHO לבדיקת הנתיב" },
+                    { flag: "-p [port]", desc: "הגדרת פורט היעד לבדיקת התקשורת" }
+                ]
+            },
+            { 
+                title: "הצגת טבלת ARP (כתובות MAC ברשת)", 
+                os: "windows", 
+                tags: "arp mac ip network", 
+                cmd: "arp",
+                flags: [
+                    { flag: "-a", desc: "הצגת טבלת ה-ARP המקומית המכילה מיפוי IP ל-MAC" },
+                    { flag: "-v", desc: "הצגת פלט מפורט כולל רישומים ריקים" },
+                    { flag: "-d [ip]", desc: "מחיקת רשומה ספציפית מטבלת ה-ARP" },
+                    { flag: "-s [ip] [mac]", desc: "הוספת רשומת ARP סטטית מוגדרת" }
+                ]
+            },
+            { 
+                title: "הצגת טבלת ARP (כתובות MAC ברשת)", 
+                os: "linux", 
+                tags: "arp mac ip network", 
+                cmd: "ip neighbor",
+                flags: [
+                    { flag: "show", desc: "הצגת טבלת השכנים ברשת (ARP Cache)" },
+                    { flag: "flush", desc: "ניקוי ואיפוס רשומות ה-ARP במערכת" },
+                    { flag: "-4 / -6", desc: "הצגת רשומות המיפוי עבור IPv4 או IPv6 בלבד" }
+                ]
+            },
+            { 
+                title: "הצגת טבלת הניתוב במערכת (Routing Table)", 
+                os: "windows", 
+                tags: "route routing ip table", 
+                cmd: "route print",
+                flags: [
+                    { flag: "print", desc: "הדפסת טבלת הניתוב המלאה במערכת" },
+                    { flag: "-4 / -6", desc: "הצגת נתיבי IPv4 או IPv6 בלבד" },
+                    { flag: "add [target] mask [netmask] [gateway]", desc: "הוספת נתיב חדש לטבלת הניתוב" },
+                    { flag: "delete [target]", desc: "מחיקת נתיב קיים מטבלת הניתוב" }
+                ]
+            },
+            { 
+                title: "הצגת טבלת הניתוב במערכת (Routing Table)", 
+                os: "linux", 
+                tags: "route routing ip table", 
+                cmd: "ip route",
+                flags: [
+                    { flag: "show", desc: "הצגת כל כללי הניתוב הפעילים" },
+                    { flag: "get [ip]", desc: "הצגת הנתיב הספציפי שבו תשמש המערכת להגעה ל-IP מסוים" },
+                    { flag: "add [prefix] via [gateway]", desc: "הוספת נתיב ניתוב חדש" }
+                ]
+            },
+
+            // Hashing & Hashes
+            { 
+                title: "חישוב גיבוב קובץ (File Hash) ב-PowerShell", 
+                os: "windows", 
+                tags: "hash sha256 certutil md5", 
+                cmd: "Get-FileHash .\\filename.ext",
+                flags: [
+                    { flag: "-Algorithm SHA256", desc: "חישוב גיבוב לפי אלגוריתם SHA256 (ברירת מחדל)" },
+                    { flag: "-Algorithm MD5", desc: "חישוב גיבוב לפי אלגוריתם MD5" },
+                    { flag: "-Algorithm SHA1", desc: "חישוב גיבוב לפי אלגוריתם SHA1" },
+                    { flag: "-Algorithm SHA512", desc: "חישוב גיבוב לפי אלגוריתם SHA512" }
+                ]
+            },
+            { 
+                title: "חישוב גיבוב קובץ (File Hash)", 
+                os: "linux", 
+                tags: "hash sha256 md5sum", 
+                cmd: "sha256sum filename.ext",
+                flags: [
+                    { flag: "-c [file]", desc: "אימות קובץ מול רשימת גיבובים שמורה (Check)" },
+                    { flag: "-b", desc: "קריאת הקובץ במצב בינארי" },
+                    { flag: "-t", desc: "קריאת הקובץ במצב טקסט" }
+                ]
+            },
+
+            // Process Management
+            { 
+                title: "איתור תהליכים פעילים לפי זיכרון", 
+                os: "windows", 
+                tags: "process tasklist ps", 
+                cmd: "tasklist",
+                flags: [
+                    { flag: "/v", desc: "הצגת פרטי תהליכים מורחבים (משתמש, זמן מעבד, כותרת חלון)" },
+                    { flag: "/fi \"[filter]\"", desc: "סינון תהליכים לפי קריטריונים (למשל STATUS eq RUNNING)" },
+                    { flag: "/svc", desc: "הצגת השירותים (Services) המארחים בכל תהליך" },
+                    { flag: "/m [module]", desc: "הצגת כל התהליכים שטוענים קובץ DLL מסוים" }
+                ]
+            },
+            { 
+                title: "איתור תהליכים פעילים לפי זיכרון", 
+                os: "linux", 
+                tags: "process ps top htop", 
+                cmd: "ps",
+                flags: [
+                    { flag: "aux", desc: "הצגת כל התהליכים של כל המשתמשים במערכת בפורט מפורט" },
+                    { flag: "-ef", desc: "הצגת רשימת תהליכים מלאה בפורמט תקני כולל PPID" },
+                    { flag: "-u [user]", desc: "סינון תהליכים השייכים למשתמש ספציפי" },
+                    { flag: "--sort=-%mem", desc: "מיון התהליכים בסדר יורד לפי צריכת זיכרון" },
+                    { flag: "--sort=-%cpu", desc: "מיון התהליכים בסדר יורד לפי צריכת מעבד" }
+                ]
+            }
+        ];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showWorkflow(workflowId, btnElement) {
+            document.querySelectorAll('.workflow-section').forEach(wf => wf.style.display = 'none');
+            document.querySelectorAll('.select-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(workflowId).style.display = 'flex';
+            btnElement.classList.add('active');
+        }
+
+        function openUrl(templateUrl) {
+            let target = document.getElementById('targetInput').value.trim();
+            if(!target && templateUrl.includes('{target}')) {
+                alert('אנא הזן מטרה (Target) בתיבה העליונה לפני השימוש בכלי זה.');
+                return;
+            }
+            let finalUrl = templateUrl.replace(/{target}/g, encodeURIComponent(target));
+            window.open(finalUrl, '_blank');
+        }
+
+        function filterCommands() {
+            let osFilter = document.getElementById('cliOsSelect').value;
+            let query = document.getElementById('cliQuery').value.toLowerCase().trim();
+            let target = document.getElementById('targetInput').value.trim() || "example.com";
+            
+            let container = document.getElementById('cliResults');
+            container.innerHTML = '';
+
+            let filtered = cliCommands.filter(item => {
+                let matchesOs = (osFilter === 'all' || item.os === osFilter);
+                let matchesQuery = !query || 
+                                   item.title.toLowerCase().includes(query) || 
+                                   item.tags.toLowerCase().includes(query) || 
+                                   item.cmd.toLowerCase().includes(query) ||
+                                   (item.flags && item.flags.some(f => f.flag.toLowerCase().includes(query) || f.desc.toLowerCase().includes(query)));
+                return matchesOs && matchesQuery;
+            });
+
+            if(filtered.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted);">לא נמצאו פקודות מתאימות לחיפוש שלך.</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                let cmdFormatted = item.cmd.replace(/{target}/g, target);
+                
+                let flagsHtml = '';
+                if(item.flags && item.flags.length > 0) {
+                    let flagsListItems = item.flags.map(f => `
+                        <li class="cmd-flag-item">
+                            <span class="cmd-flag-code">${f.flag}</span>
+                            <span>${f.desc}</span>
+                        </li>
+                    `).join('');
+
+                    flagsHtml = `
+                        <div class="cmd-flags-container">
+                            <div class="cmd-flags-title">📌 פלאגים ופרמטרים אפשריים:</div>
+                            <ul class="cmd-flags-list">
+                                ${flagsListItems}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                let card = document.createElement('div');
+                card.className = 'cmd-item';
+                card.innerHTML = `
+                    <div class="cmd-header">
+                        <span class="cmd-title">${item.title}</span>
+                        <span class="cmd-os-tag">${item.os.toUpperCase()}</span>
+                    </div>
+                    <div class="cmd-code-block">
+                        <code>${cmdFormatted}</code>
+                        <button class="copy-cmd-btn" onclick="copyToClipboard('${cmdFormatted.replace(/'/g, "\\'")}')">📋 העתק</button>
+                    </div>
+                    ${flagsHtml}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert('הפקודה הועתקה ללוח!');
+        }
+
+        window.onload = function() {
+            let savedNotes = localStorage.getItem('osintNotes');
+            if(savedNotes) { document.getElementById('osintNotes').value = savedNotes; }
+            document.querySelector('.select-btn').click();
+            filterCommands();
+        }
+
+        function saveNotes() {
+            let notes = document.getElementById('osintNotes').value;
+            localStorage.setItem('osintNotes', notes);
+            let indicator = document.getElementById('saveIndicator');
+            indicator.style.opacity = 1;
+            setTimeout(() => { indicator.style.opacity = 0; }, 2000);
+        }
+    </script>
+</body>
+</html>
