@@ -32,7 +32,7 @@ Use the interface locally (client-side) directly from your browser.
 
 
 
-                                                                              # 🛡️ Advanced Cyber Reconnaissance Tools Hebrew Version - Beta Version
+
 
 מרכז כלים וסביבת עבודה מתקדמת המרכזת כלי OSINT ואיסוף מודיעין גלוי עבור סטודנטים וחוקרי סייבר.
 
