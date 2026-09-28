@@ -22,9 +22,17 @@ To solve my own problem and make the learning process smoother, I built **Advanc
 - **HTML5 & CSS3** (Custom Modern Dark Mode UI)
 - **Vanilla JavaScript** (Interactivity & Local Storage)
 
+##‼️ Operating Instructions
+After downloading, the file will be saved as a .txt file.
+Make sure the file name ends with the .html extension (for example: Advanced_Cyber_Reconnaissance_Tools.html).
+
+Open the file using any modern web browser (such as Google Chrome, Mozilla Firefox, or Microsoft Edge) by double-clicking it or dragging it into the browser window.
+
+Use the interface locally (client-side) directly from your browser.
 
 
-# 🛡️ Advanced Cyber Reconnaissance Tools Hebrew Version - Beta Version
+
+                                                                              # 🛡️ Advanced Cyber Reconnaissance Tools Hebrew Version - Beta Version
 
 מרכז כלים וסביבת עבודה מתקדמת המרכזת כלי OSINT ואיסוף מודיעין גלוי עבור סטודנטים וחוקרי סייבר.
 
@@ -50,4 +58,10 @@ To solve my own problem and make the learning process smoother, I built **Advanc
 - **HTML5 & CSS3** (עיצוב מודרני מותאם ל-Dark Mode)
 - **Vanilla JavaScript** (לוגיקה, אינטראקטיביות ואחסון מקומי - Local Storage)
 
+## ‼️ הוראות הפעלה
+לאחר הורדת קובץ הוא ירד כקובץ .txt 
+ודא ששם הקובץ מסתיים בסיומת .html (לדוגמה: Advanced_Cyber_Reconnaissance_Tools.html).
 
+פתח את הקובץ באמצעות כל דפדפן אינטרנט מודרני (כגון Google Chrome, Mozilla Firefox, או Microsoft Edge) על ידי לחיצה כפולה או גרירתו לתוך חלון הדפדפן.
+
+השתמש בממשק באופן מקומי (Client-side) ישירות מתוך הדפדפן.
